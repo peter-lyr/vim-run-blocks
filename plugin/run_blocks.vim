@@ -1,0 +1,46 @@
+if has('win32')
+    let g:temp_dir = 'C:\Windows\Temp\'
+elseif has('unix')
+    let g:temp_dir = '/tmp/'
+elseif has('mac')
+    let g:temp_dir = '/tmp/'
+endif
+
+function! RunCodeBlock(method)
+    call InitCodeBlock()
+    python3 << EOF
+if 'not_ok' in locals():
+    del not_ok
+else:
+    temp_path = vim.eval('g:temp_dir ."tmp_from_neovim."')
+
+    if file_type == 'python':
+        temp_path += 'py'
+    # elif file_type == 'c':
+    #     temp_path += 'c'
+
+    with open(temp_path, 'wt') as f:
+        f.write('\n'.join(code_lines))
+    del up_num, down_num, code_lines, line_num, temp_path, f
+EOF
+    if g:file_type == 'python'
+        let cmd = 'python ' .g:temp_dir .'tmp_from_neovim.py'
+    endif
+
+    if a:method == 'term'
+        exec 'sp|te ' .cmd
+    elseif a:method == 'asyn'
+        exec 'AsyncRun ' .cmd
+        exec 'copen'
+    endif
+endfunction
+
+
+"运行python代码，在markdown文件中的code block中：
+map <silent> <F7> :call RunCodeBlock('term')<cr>
+imap <silent> <F7> <esc>:call RunCodeBlock('term')<CR>
+vmap <silent> <F7> <esc>:call RunCodeBlock('term')<CR>
+
+map <silent> <F8> :call RunCodeBlock('asyn')<cr>
+imap <silent> <F8> <esc>:call RunCodeBlock('asyn')<CR>
+vmap <silent> <F8> <esc>:call RunCodeBlock('asyn')<CR>
