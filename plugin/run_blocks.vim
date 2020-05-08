@@ -21,7 +21,7 @@ else:
 
     with open(temp_path, 'wt') as f:
         f.write('\n'.join(code_lines))
-    del up_num, down_num, code_lines, line_num, temp_path, f
+    del up_num, down_num, code_lines, line_num, temp_path, f, file_type, block_head
 EOF
     if g:file_type == 'python'
         let cmd = 'python ' .g:temp_dir .'tmp_from_neovim.py'
