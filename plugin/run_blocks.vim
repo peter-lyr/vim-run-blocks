@@ -16,8 +16,8 @@ else:
 
     if file_type == 'python':
         temp_path += 'py'
-    # elif file_type == 'c':
-    #     temp_path += 'c'
+    elif file_type == 'c':
+        temp_path += 'c'
 
     with open(temp_path, 'wt') as f:
         f.write('\n'.join(code_lines))
@@ -25,6 +25,8 @@ else:
 EOF
     if g:file_type == 'python'
         let cmd = 'python ' .g:temp_dir .'tmp_from_neovim.py'
+    elseif g:file_type == 'c'
+        let cmd = 'make ' .g:temp_dir .'tmp_from_neovim' .' && ' .g:temp_dir .'tmp_from_neovim'
     endif
 
     if a:method == 'term'
