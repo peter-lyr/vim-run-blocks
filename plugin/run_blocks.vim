@@ -26,7 +26,7 @@ EOF
     if g:file_type == 'python'
         let cmd = 'python ' .g:temp_dir .'tmp_from_neovim.py'
     elseif g:file_type == 'c'
-        let cmd = 'make ' .g:temp_dir .'tmp_from_neovim -s' .' && ' .g:temp_dir .'tmp_from_neovim'
+        let cmd = 'make -lm' .g:temp_dir .'tmp_from_neovim -s' .' && ' .g:temp_dir .'tmp_from_neovim'
     endif
 
     if a:method == 'term'
