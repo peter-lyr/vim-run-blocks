@@ -26,7 +26,9 @@ EOF
     if g:file_type == 'python'
         let cmd = 'python ' .g:temp_dir .'tmp_from_neovim.py'
     elseif g:file_type == 'c'
-        let cmd = 'gcc ' .g:temp_dir .'tmp_from_neovim.c -lm -Wall -o ' .g:temp_dir .'tmp_from_neovim' .' && echo "====STAR HERE====" && ' .g:temp_dir .'tmp_from_neovim'
+        let cmd = 'gcc ' .g:temp_dir .'tmp_from_neovim.c -lm -Wall -o ' .g:temp_dir .'tmp_from_neovim'
+                    \ .' && echo "[***] Start to run:" && '
+                    \ .g:temp_dir .'tmp_from_neovim'
     endif
 
     if a:method == 'term'
