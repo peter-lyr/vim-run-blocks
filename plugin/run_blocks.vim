@@ -7,7 +7,8 @@ elseif has('mac')
 endif
 
 
-let g:clang_warning = 1
+"默认不开启警告
+let g:clang_warning = 0
 
 
 function! RunCodeBlock(method)
