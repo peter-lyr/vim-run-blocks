@@ -9,7 +9,6 @@ endif
 
 "默认不开启警告
 let g:runblocks_clang_warning = 0
-let g:runblocks_simple_output = 0
 
 
 function! RunCodeBlock(method)
@@ -37,7 +36,7 @@ EOF
         else
             let warning_flag = ''
         endif
-        if g:runblocks_simple_output
+        if exists('g:runblocks_simple_output')
             let cmd = 'gcc ' .g:temp_dir .'tmp_from_neovim.c -lm ' .warning_flag .'-o ' .g:temp_dir .'tmp_from_neovim && ' 
                         \ .g:temp_dir .'tmp_from_neovim'
         else
