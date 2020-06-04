@@ -36,8 +36,8 @@ EOF
         else
             let warning_flag = ''
         endif
-        let cmd = 'gcc ' .g:temp_dir .'tmp_from_neovim.c -lm ' .warning_flag .'-o ' .g:temp_dir .'tmp_from_neovim'
-                    \ .' && echo "[***] Start to run:" && '
+        let cmd = 'gcc ' .g:temp_dir .'tmp_from_neovim.c -lm ' .warning_flag .'-o ' .g:temp_dir .'tmp_from_neovim && ' 
+                    \ .'echo -e "[ \033[1;32mOK\033[0m ] gcc "' .g:temp_dir .'tmp_from_neovim.c -lm ' .warning_flag .'-o ' .g:temp_dir .'tmp_from_neovim && '
                     \ .g:temp_dir .'tmp_from_neovim'
     endif
 
