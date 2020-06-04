@@ -36,7 +36,7 @@ EOF
         else
             let warning_flag = ''
         endif
-        if exists('g:runblocks_simple_output')
+        if and(exists('g:runblocks_simple_output'), g:runblocks_simple_output == 1)
             let cmd = 'gcc ' .g:temp_dir .'tmp_from_neovim.c -lm ' .warning_flag .'-o ' .g:temp_dir .'tmp_from_neovim && ' 
                         \ .g:temp_dir .'tmp_from_neovim'
         else
