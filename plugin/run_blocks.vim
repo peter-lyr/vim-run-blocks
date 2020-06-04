@@ -8,7 +8,8 @@ endif
 
 
 "默认不开启警告
-let g:clang_warning = 0
+let g:runblocks_clang_warning = 0
+let g:runblocks_simple_output = 0
 
 
 function! RunCodeBlock(method)
@@ -31,14 +32,21 @@ EOF
     if g:file_type == 'python'
         let cmd = 'python ' .g:temp_dir .'tmp_from_neovim.py'
     elseif g:file_type == 'c'
-        if g:clang_warning
+        if g:runblocks_clang_warning
             let warning_flag = '-Wall '
         else
             let warning_flag = ''
         endif
-        let cmd = 'gcc ' .g:temp_dir .'tmp_from_neovim.c -lm ' .warning_flag .'-o ' .g:temp_dir .'tmp_from_neovim && ' 
-                    \ .'echo -e "[ \033[1;32mOK\033[0m ] gcc "' .g:temp_dir .'tmp_from_neovim.c -lm ' .warning_flag .'-o ' .g:temp_dir .'tmp_from_neovim && '
-                    \ .g:temp_dir .'tmp_from_neovim'
+        if g:runblocks_simple_output
+            let cmd = 'gcc ' .g:temp_dir .'tmp_from_neovim.c -lm ' .warning_flag .'-o ' .g:temp_dir .'tmp_from_neovim && ' 
+                        \ .g:temp_dir .'tmp_from_neovim && '
+        else
+            let cmd = 'gcc ' .g:temp_dir .'tmp_from_neovim.c -lm ' .warning_flag .'-o ' .g:temp_dir .'tmp_from_neovim && ' 
+                        \ .'echo -e "[ \033[1;32mOK\033[0m ] gcc "' .g:temp_dir .'tmp_from_neovim.c -lm ' .warning_flag .'-o ' .g:temp_dir .'tmp_from_neovim && '
+                        \ .'echo -e "[ \033[1;32m***\033[0m ] "' .g:temp_dir .'tmp_from_neovim && '
+                        \ .g:temp_dir .'tmp_from_neovim && '
+                        \ .'echo -e "[ \033[1;32mOK\033[0m ]"'
+        endif
     endif
 
     if a:method == 'term'
