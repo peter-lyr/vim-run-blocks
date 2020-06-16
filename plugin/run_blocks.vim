@@ -1,9 +1,9 @@
 if has('win32')
-    let g:temp_dir = 'C:\Windows\Temp\'
+    let g:tmp_root = 'C:\Windows\Temp\'
 elseif has('unix')
-    let g:temp_dir = '/tmp/'
+    let g:tmp_root = '/tmp/'
 elseif has('mac')
-    let g:temp_dir = '/tmp/'
+    let g:tmp_root = '/tmp/'
 endif
 
 
@@ -17,8 +17,7 @@ function! RunCodeBlock(method)
 if 'not_ok' in locals():
     del not_ok
 else:
-    temp_path = vim.eval('g:temp_dir ."tmp_from_neovim."')
-
+    temp_path = vim.eval('g:tmp_root ."tmp_from_neovim."')
     if file_type == 'python':
         temp_path += 'py'
     elif file_type == 'c':
@@ -29,7 +28,7 @@ else:
     del up_num, down_num, code_lines, line_num, temp_path, f, file_type, block_head
 EOF
     if g:file_type == 'python'
-        let cmd = 'python ' .g:temp_dir .'tmp_from_neovim.py'
+        let cmd = 'python ' .g:tmp_root .'tmp_from_neovim.py'
     elseif g:file_type == 'c'
         if g:runblocks_clang_warning
             let warning_flag = '-Wall '
@@ -37,13 +36,13 @@ EOF
             let warning_flag = ''
         endif
         if and(exists('g:runblocks_simple_output'), g:runblocks_simple_output == 1)
-            let cmd = 'gcc ' .g:temp_dir .'tmp_from_neovim.c -lm ' .warning_flag .'-o ' .g:temp_dir .'tmp_from_neovim && ' 
-                        \ .g:temp_dir .'tmp_from_neovim'
+            let cmd = 'gcc ' .g:tmp_root .'tmp_from_neovim.c -lm ' .warning_flag .'-o ' .g:tmp_root .'tmp_from_neovim && ' 
+                        \ .g:tmp_root .'tmp_from_neovim'
         else
-            let cmd = 'gcc ' .g:temp_dir .'tmp_from_neovim.c -lm ' .warning_flag .'-o ' .g:temp_dir .'tmp_from_neovim && ' 
-                        \ .'echo -e "[ \033[1;32mOK\033[0m ] gcc "' .g:temp_dir .'tmp_from_neovim.c -lm ' .warning_flag .'-o ' .g:temp_dir .'tmp_from_neovim && '
-                        \ .'echo -e "[ \033[1;32m***\033[0m ] "' .g:temp_dir .'tmp_from_neovim && '
-                        \ .g:temp_dir .'tmp_from_neovim && '
+            let cmd = 'gcc ' .g:tmp_root .'tmp_from_neovim.c -lm ' .warning_flag .'-o ' .g:tmp_root .'tmp_from_neovim && ' 
+                        \ .'echo -e "[ \033[1;32mOK\033[0m ] gcc "' .g:tmp_root .'tmp_from_neovim.c -lm ' .warning_flag .'-o ' .g:tmp_root .'tmp_from_neovim && '
+                        \ .'echo -e "[ \033[1;32m***\033[0m ] "' .g:tmp_root .'tmp_from_neovim && '
+                        \ .g:tmp_root .'tmp_from_neovim && '
                         \ .'echo -e "[ \033[1;32mOK\033[0m ]"'
         endif
     endif
