@@ -23,8 +23,8 @@ else:
     elif file_type == 'c':
         temp_path += 'c'
 
-    with open(temp_path, 'wt') as f:
-        f.write('\n'.join(code_lines))
+    with open(temp_path, 'wb') as f:
+        f.write('\n'.join(code_lines).encode('utf-8'))
     del up_num, down_num, code_lines, line_num, temp_path, f, file_type, block_head
 EOF
     if g:file_type == 'python'
