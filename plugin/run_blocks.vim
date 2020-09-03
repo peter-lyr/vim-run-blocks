@@ -17,18 +17,15 @@ function! RunCodeBlock(method)
         return
     endif
     python3 << EOF
-if 'not_ok' in locals():
-    del not_ok
-else:
-    temp_path = vim.eval('g:tmp_root ."tmp_from_neovim."')
-    if file_type == 'python':
-        temp_path += 'py'
-    elif file_type == 'c':
-        temp_path += 'c'
+temp_path = vim.eval('g:tmp_root ."tmp_from_neovim."')
+if file_type == 'python':
+    temp_path += 'py'
+elif file_type == 'c':
+    temp_path += 'c'
 
-    with open(temp_path, 'wb') as f:
-        f.write('\n'.join(code_lines).encode('utf-8'))
-    del up_num, down_num, code_lines, line_num, temp_path, f, file_type, block_head
+with open(temp_path, 'wb') as f:
+    f.write('\n'.join(code_lines).encode('utf-8'))
+del up_num, down_num, code_lines, line_num, temp_path, f, file_type, block_head
 EOF
     if g:file_type == 'python'
         let cmd = 'python ' .g:tmp_root .'tmp_from_neovim.py'
@@ -52,9 +49,13 @@ EOF
 
     if a:method == 'term'
         exec 'sp|te ' .cmd
+        let g:run_block_cmd_pre = ""
+        let g:run_block_cmd = 'sp|te ' .cmd
     elseif a:method == 'asyn'
-        exec 'AsyncRun ' .cmd
-        exec 'copen'
+        exec "copen | normal \<c-w>J"
+        exec "AsyncRun! " .cmd
+        let g:run_block_cmd_pre = "copen | normal \<c-w>J"
+        let g:run_block_cmd = "AsyncRun! " .cmd
     endif
 endfunction
 
@@ -67,3 +68,7 @@ vmap <silent> <F7> <esc>:call RunCodeBlock('term')<CR>
 map <silent> <F8> :call RunCodeBlock('asyn')<cr>
 imap <silent> <F8> <esc>:call RunCodeBlock('asyn')<CR>
 vmap <silent> <F8> <esc>:call RunCodeBlock('asyn')<CR>
+
+map <F10> :call RunAgain('block')<CR>
+imap <F10> <esc>:call RunAgain('block')<CR>
+vmap <F10> <esc>:call RunAgain('block')<CR>
