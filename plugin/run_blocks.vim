@@ -12,7 +12,10 @@ let g:runblocks_clang_warning = 0
 
 
 function! RunCodeBlock(method)
-    call InitCodeBlock()
+    let status = InitCodeBlock()
+    if status == 'not_ok'
+        return
+    endif
     python3 << EOF
 if 'not_ok' in locals():
     del not_ok
