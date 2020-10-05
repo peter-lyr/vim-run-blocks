@@ -48,14 +48,14 @@ EOF
     endif
 
     if a:method == 'term'
-        exec 'sp|te ' .cmd
         let g:run_block_cmd_pre = ""
-        let g:run_block_cmd = 'sp|te ' .cmd
+        let g:run_block_cmd = 'sp|te ' ."workon " .g:work_on .' && ' .cmd
+        exec g:run_block_cmd
     elseif a:method == 'asyn'
-        exec "copen | normal \<c-w>J"
-        exec "AsyncRun! " .cmd
         let g:run_block_cmd_pre = "copen | normal \<c-w>J"
-        let g:run_block_cmd = "AsyncRun! " .cmd
+        let g:run_block_cmd = "AsyncRun! " ."workon " .g:work_on .' && ' .cmd
+        exec g:run_block_cmd_pre
+        exec g:run_block_cmd
     endif
 endfunction
 
