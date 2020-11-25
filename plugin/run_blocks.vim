@@ -49,11 +49,19 @@ EOF
 
     if a:method == 'term'
         let g:run_block_cmd_pre = ""
-        let g:run_block_cmd = 'sp|te ' ."workon " .g:work_on .' && ' .cmd
+        try
+            let g:run_block_cmd = 'sp|te ' ."workon " .g:work_on .' && ' .cmd
+        catch
+            let g:run_block_cmd = 'sp|te ' .' && ' .cmd
+        endtry
         exec g:run_block_cmd
     elseif a:method == 'asyn'
         let g:run_block_cmd_pre = "copen | normal \<c-w>J"
-        let g:run_block_cmd = "AsyncRun! " ."workon " .g:work_on .' && ' .cmd
+        try
+            let g:run_block_cmd = "AsyncRun! " ."workon " .g:work_on .' && ' .cmd
+        catch
+            let g:run_block_cmd = "AsyncRun! " .' && ' .cmd
+        endtry
         exec g:run_block_cmd_pre
         exec g:run_block_cmd
     endif
