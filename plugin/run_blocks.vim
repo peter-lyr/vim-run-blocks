@@ -51,16 +51,16 @@ EOF
         let g:run_block_cmd_pre = ""
         try
             let g:run_block_cmd = 'sp|te ' ."workon " .g:work_on .' && ' .cmd
+            let g:run_block_cmd = 'sp|te ' .cmd
         catch
-            let g:run_block_cmd = 'sp|te ' .' && ' .cmd
         endtry
         exec g:run_block_cmd
     elseif a:method == 'asyn'
         let g:run_block_cmd_pre = "copen | normal \<c-w>J"
         try
             let g:run_block_cmd = "AsyncRun! " ."workon " .g:work_on .' && ' .cmd
+            let g:run_block_cmd = "AsyncRun! " .cmd
         catch
-            let g:run_block_cmd = "AsyncRun! " .' && ' .cmd
         endtry
         exec g:run_block_cmd_pre
         exec g:run_block_cmd
