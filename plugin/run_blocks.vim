@@ -1,9 +1,11 @@
-if has('win32')
-    let g:tmp_root = 'C:\Windows\Temp\'
-elseif has('unix')
-    let g:tmp_root = '/tmp/'
-elseif has('mac')
-    let g:tmp_root = '/tmp/'
+if !exists('g:tmp_root')
+    if has('win32')
+        let g:tmp_root = 'C:\Windows\Temp\'
+    elseif has('unix')
+        let g:tmp_root = '/tmp/'
+    elseif has('mac')
+        let g:tmp_root = '/tmp/'
+    endif
 endif
 
 
